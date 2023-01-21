@@ -4,29 +4,25 @@ const APIKEY = '4203f43b78f7f3bc4bc6a82d6717846b';
 
 // Geocoding API: http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
 
-async function getData(object) {
+async function getData(key1, key2 = undefined) {
   const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=29.7604&lon=-95.3698&units=imperial&appid=${APIKEY}`);
   const data = await response.json();
 
-  for (let i = 0; i < Object.keys(object).length; i += 1) {
-    const firstKey = Object.keys(object)[i];
-    const valueObj = object[firstKey];
-    const secondKey = Object.values(valueObj)[0];
-
-    const answer = data[firstKey][secondKey];
-
-    console.log(answer);
+  if (key1 === 'weather' && key2 !== undefined) {
+    console.log(data[key1][0][key2]);
+  } else if (key2 !== undefined) {
+    console.log(data[key1][key2]);
+  } else {
+    console.log(data[key1]);
   }
 }
 
-const temperValueObj = {
-  key1: 'temp',
-};
-const temperKeyObj = {
-  main: temperValueObj,
-};
-
-getData(temperKeyObj);
+getData('weather', 'description');
+getData('main', 'temp');
+getData('main', 'feels_like');
+getData('main', 'temp_max');
+getData('main', 'temp_min');
+getData('main', 'humidity');
 
 /* const geoFetched = fetch('http://api.openweathermap.org/geo/1.0/direct?q=Houston,TX,USA&limit=5&appid=4203f43b78f7f3bc4bc6a82d6717846b}');
 console.log(geoFetched); */
