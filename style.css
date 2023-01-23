@@ -1,4 +1,4 @@
-* {
+:root {
   color: black;
 }
 
@@ -45,6 +45,38 @@ p {
 
 main {
   grid-row: 1 / 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#weather-panel {
+  display: grid;
+  text-align: center;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 2fr;
+}
+
+h3 {
+  text-align: start;
+}
+
+#top-pane {
+  grid-column: 1 / -1;
+  grid-template-rows: 1 / 2;
+}
+
+#left-pane {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  padding-right: 10px;
+  display: flex;
+}
+
+#right-pane {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  padding-left: 10px;
 }
 
 footer {
