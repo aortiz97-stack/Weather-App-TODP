@@ -5,6 +5,7 @@ const APIKEY = '4203f43b78f7f3bc4bc6a82d6717846b';
 // Geocoding API: http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
 
 // country to country code api: https://restcountries.com/v3.1/name/{name}?fullText=true
+// Weather icon API: http://openweathermap.org/img/wn/${iconCode}@2x.png
 
 /* getData('weather', 'description');
 getData('main', 'temp');
@@ -71,12 +72,46 @@ async function getData(output, key1, key2) {
   return (data[key1]);
 }
 
-function displayData(output) {
-  const htmlIDS = ['location', 'description', 'current-temp', 'feel-temp', 'high-temp', 'low-temp', 'humidity'];
+async function displayData(output) {
+  const splitOutPut = output.split(', ');
+  const location = document.querySelector('#location');
+  location.innerHTML = output;
+  const htmlIDS = ['description', 'temp', 'icon', 'feels_like', 'temp_max', 'temp_min', 'humidity'];
+
+  for (let i = 0; i < htmlIDS.length; i += 1) {
+    const key2 = htmlIDS[i];
+    let key1;
+    if (key2 === 'description' || key2 === 'icon') {
+      key1 = 'weather';
+    } else {
+      key1 = 'main';
+    }
+    // eslint-disable-next-line no-await-in-loop
+    const dataValue = await getData(splitOutPut, key1, key2);
+    const html = document.querySelector(`#${key2}`);
+    if (key2 === 'icon') {
+      html.src = `http://openweathermap.org/img/wn/${dataValue}@2x.png`;
+    } else if (key2 === 'description') {
+      html.innerHTML = dataValue;
+    } else {
+      const span = html.querySelector('span.value');
+      span.innerHTML = dataValue;
+    }
+  }
 }
 
-const input = document.querySelector('input');
-let output = input.value;
-output = output.split(', ');
+/* getData('weather', 'description');
+getData('main', 'temp');
+getData('main', )
+getData('main', 'feels_like');
+getData('main', 'temp_max');
+getData('main', 'temp_min');
+getData('main', 'humidity'); */
 
-getData(output, 'main', 'temp');
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const input = document.querySelector('input');
+    const output = input.value;
+    displayData(output);
+  }
+});

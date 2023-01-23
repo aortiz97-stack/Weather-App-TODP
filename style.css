@@ -25,7 +25,6 @@ body {
 input {
  opacity: 0.3;
  width: 100%;
- size: 50;
 }
 
 a {
@@ -72,6 +71,8 @@ h3 {
   grid-row: 2 / 3;
   padding-right: 10px;
   display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 #right-pane {
