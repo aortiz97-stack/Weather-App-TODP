@@ -25,6 +25,7 @@ body {
 input {
  opacity: 0.3;
  width: 100%;
+ size: 50;
 }
 
 a {

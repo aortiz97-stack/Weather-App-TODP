@@ -12,21 +12,22 @@
     <main>
         <div id="search">
             <label for="search-bar"><div><img src="./images/search.png" alt="search icon"></div></label>
-            <input type="text" id ="search-bar" value = "Enter a city"/>
+            <input type="text" id ="search-bar" value = "Houston, TX, United States" size ='25'/>
         </div>
         <div id="weather-panel">
             <div id="top-pane">
-                <h1>Houston, TX USA</h1>
-                <h2>Sunny</h2>
+                <h1 id="location">-</h1>
+                <h2 id="weather-description">-</h2>
             </div>
             <div id="left-pane">
-                <h3>Temperature: 74</h3>
+                <h3 id="current-temp">Temperature: - °F</h3>
+                <div><img src="" alt=""></div>
             </div>
             <div id="right-pane">
-                <h3>Feels like: 75</h3>
-                <h3>Today's High: 80</h3>
-                <h3>Today's Low: 60</h3>
-                <h3>Humidity: 80%</h3>
+                <h3 id="feel-temp">Feels like: - °F</h3>
+                <h3 id="high-temp">Today's High: - °F</h3>
+                <h3 id="low-temp">Today's Low: - °F</h3>
+                <h3 id="humidity">Humidity: - %</h3>
             </div>
         </div>
     </main>
