@@ -17,12 +17,19 @@ async function getData(key1, key2 = undefined) {
   }
 }
 
-getData('weather', 'description');
+/*getData('weather', 'description');
 getData('main', 'temp');
 getData('main', 'feels_like');
 getData('main', 'temp_max');
 getData('main', 'temp_min');
-getData('main', 'humidity');
+getData('main', 'humidity');*/
 
-/* const geoFetched = fetch('http://api.openweathermap.org/geo/1.0/direct?q=Houston,TX,USA&limit=5&appid=4203f43b78f7f3bc4bc6a82d6717846b}');
-console.log(geoFetched); */
+async function getLongLatLocation(city, country = 'USA', stateCode = 'TX') {
+  const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}},${stateCode},${country}&limit=1&appid=${APIKEY}`);
+  const data = await response.json();
+  return data;
+}
+
+const locationPromise = getLongLatLocation('Houston');
+
+console.log(Promise.resolve(locationPromise.lat));
