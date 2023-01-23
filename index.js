@@ -39,6 +39,8 @@ async function getLongLatLocation(city, countryName = '', stateCode = '') {
       response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKEY}`);
     } else if (countryName.length === 0) {
       response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode}&limit=1&appid=${APIKEY}`);
+    } else if (countryName.length !== 0 && stateCode.length === 0) {
+      response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${countryCode}&limit=1&appid=${APIKEY}`);
     } else if (stateCode.length === 0) {
       response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${countryCode}&limit=1&appid=${APIKEY}`);
     } else {
@@ -48,28 +50,48 @@ async function getLongLatLocation(city, countryName = '', stateCode = '') {
     return data[0];
   } catch {
     alert('Unable to find location');
-    throw (new Error('Location is invalid'));
+    throw (new Error('Unable to find location'));
   }
 }
 
 async function getData(output, key1, key2) {
-  const city = output[0];
-  const state = output[1];
-  const country = output[2];
+  try {
+    const city = output[0];
+    let state = output[1];
+    let country = output[2];
 
-  const coords = await getLongLatLocation(city, country, state);
-  const { lat } = coords;
-  const { lon } = coords;
+    if (state === undefined && country === undefined) {
+      state = '';
+      country = '';
+    } else if (state === undefined && country.length > 2) {
+      country = state;
+      state = '';
+    } else if (country === undefined) {
+      country = '';
+    }
 
-  const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKEY}`);
-  const data = await response.json();
+    console.log(`country: ${country}`);
 
-  if (key1 === 'weather' && key2 !== undefined) {
-    return (data[key1][0][key2]);
-  } if (key2 !== undefined) {
-    return (data[key1][key2]);
+    const coords = await getLongLatLocation(city, country, state);
+    console.log(`passed`);
+    console.log(`coords: ${coords}`)
+    const { lat } = coords;
+    const { lon } = coords;
+    console.log(`Lat and lon: ${lat},${lon}`);
+
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKEY}`);
+    const data = await response.json();
+
+    if (key1 === 'weather' && key2 !== undefined) {
+      return (data[key1][0][key2]);
+    } if (key2 !== undefined) {
+      return (data[key1][key2]);
+    }
+    return (data[key1]);
+  } catch {
+    alert('Unable to obtain value from API');
+    throw (new Error('Unable to obtain value from API'));
   }
-  return (data[key1]);
 }
 
 async function displayData(output) {
@@ -108,8 +130,24 @@ getData('main', 'temp_max');
 getData('main', 'temp_min');
 getData('main', 'humidity'); */
 
+function buffer() {
+  const img = document.querySelector('#icon');
+  img.src = '';
+
+  const simpleContent = document.querySelectorAll('h1, h2');
+  for (let i = 0; i < simpleContent.length; i += 1) {
+    simpleContent[i].innerHTML = '';
+  }
+  const spanContents = document.querySelectorAll('h3');
+  for (let i = 0; i < spanContents.length; i += 1) {
+    const span = spanContents[i].querySelector('span.value');
+    span.innerHTML = '-';
+  }
+}
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
+    buffer();
     const input = document.querySelector('input');
     const output = input.value;
     displayData(output);
