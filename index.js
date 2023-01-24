@@ -31,7 +31,6 @@ async function getLongLatLocation(city, countryName = '', stateCode = '') {
     let countryCode;
     if (countryName.length !== 0) {
       countryCode = await getCountryCode(countryName);
-      console.log(`country cooooode: ${countryCode}`);
     }
     let response;
 
@@ -70,14 +69,9 @@ async function getData(output, key1, key2) {
       country = '';
     }
 
-    console.log(`country: ${country}`);
-
     const coords = await getLongLatLocation(city, country, state);
-    console.log(`passed`);
-    console.log(`coords: ${coords}`)
     const { lat } = coords;
     const { lon } = coords;
-    console.log(`Lat and lon: ${lat},${lon}`);
 
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKEY}`);
     const data = await response.json();
