@@ -109,13 +109,15 @@ async function displayData(output) {
       key1 = 'main';
     }
     // eslint-disable-next-line no-await-in-loop
-    const dataValue = await getData(splitOutPut, key1, key2);
+    let dataValue = await getData(splitOutPut, key1, key2);
     const html = document.querySelector(`#${key2}`);
     if (key2 === 'icon') {
       html.src = `http://openweathermap.org/img/wn/${dataValue}@2x.png`;
     } else if (key2 === 'description') {
+      dataValue = dataValue.charAt(0).toUpperCase() + dataValue.slice(1);
       html.innerHTML = dataValue;
     } else {
+      dataValue = Math.round(Number(dataValue));
       const span = html.querySelector('span.value');
       span.innerHTML = dataValue;
     }
