@@ -106,7 +106,7 @@ async function displayData(output) {
     let dataValue = await getData(splitOutPut, key1, key2);
     const html = document.querySelector(`#${key2}`);
     if (key2 === 'icon') {
-      html.src = `http://openweathermap.org/img/wn/${dataValue}@2x.png`;
+      html.src = `https://openweathermap.org/img/wn/${dataValue}@2x.png`;
     } else if (key2 === 'description') {
       dataValue = dataValue.charAt(0).toUpperCase() + dataValue.slice(1);
       html.innerHTML = dataValue;
