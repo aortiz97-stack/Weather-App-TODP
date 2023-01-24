@@ -35,15 +35,15 @@ async function getLongLatLocation(city, countryName = '', stateCode = '') {
     let response;
 
     if (stateCode.length === 0 && countryName.length === 0) {
-      response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${APIKEY}`);
+      response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${APIKEY}`);
     } else if (countryName.length === 0) {
-      response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode}&limit=5&appid=${APIKEY}`);
+      response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode}&limit=5&appid=${APIKEY}`);
     } else if (countryName.length !== 0 && stateCode.length === 0) {
-      response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${countryCode}&limit=5&appid=${APIKEY}`);
+      response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city},${countryCode}&limit=5&appid=${APIKEY}`);
     } else if (stateCode.length === 0) {
-      response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${countryCode}&limit=5&appid=${APIKEY}`);
+      response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city},${countryCode}&limit=5&appid=${APIKEY}`);
     } else {
-      response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode},${countryCode}&limit=5&appid=${APIKEY}`);
+      response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city},${stateCode},${countryCode}&limit=5&appid=${APIKEY}`);
     }
     const data = await response.json();
     return data[0];
